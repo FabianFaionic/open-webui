@@ -202,7 +202,7 @@
 			if (model.base_model_id) {
 				const base_model = $models
 					.filter((m) => !m?.preset && !(m?.arena ?? false))
-					.find((m) => [model.base_model_id, `${model.base_model_id}:latest`].includes(m.id));
+					.find((m) => m.id === model.base_model_id);
 
 				console.log('base_model', base_model);
 
