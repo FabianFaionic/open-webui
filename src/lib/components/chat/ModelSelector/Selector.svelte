@@ -430,6 +430,63 @@
 							class="flex gap-1 w-fit text-center text-sm font-medium rounded-full bg-transparent px-1.5 pb-0.5"
 							bind:this={tagsContainerElement}
 						>
+							{#if items.find((item) => item.model?.connection_type === 'local') || items.find((item) => item.model?.connection_type === 'external') || items.find((item) => item.model?.direct) || tags.length > 0}
+								<button
+									class="min-w-fit outline-none p-1.5 {selectedTag === '' &&
+									selectedConnectionType === ''
+										? ''
+										: 'text-gray-300 dark:text-gray-600 hover:text-gray-700 dark:hover:text-white'} transition capitalize"
+									on:click={() => {
+										selectedConnectionType = '';
+										selectedTag = '';
+									}}
+								>
+									{$i18n.t('All')}
+								</button>
+							{/if}
+
+							{#if items.find((item) => item.model?.connection_type === 'local')}
+								<button
+									class="min-w-fit outline-none p-1.5 {selectedConnectionType === 'local'
+										? ''
+										: 'text-gray-300 dark:text-gray-600 hover:text-gray-700 dark:hover:text-white'} transition capitalize"
+									on:click={() => {
+										selectedTag = '';
+										selectedConnectionType = 'local';
+									}}
+								>
+									{$i18n.t('Local')}
+								</button>
+							{/if}
+
+							{#if items.find((item) => item.model?.connection_type === 'external')}
+								<button
+									class="min-w-fit outline-none p-1.5 {selectedConnectionType === 'external'
+										? ''
+										: 'text-gray-300 dark:text-gray-600 hover:text-gray-700 dark:hover:text-white'} transition capitalize"
+									on:click={() => {
+										selectedTag = '';
+										selectedConnectionType = 'external';
+									}}
+								>
+									{$i18n.t('External')}
+								</button>
+							{/if}
+
+							{#if items.find((item) => item.model?.direct)}
+								<button
+									class="min-w-fit outline-none p-1.5 {selectedConnectionType === 'direct'
+										? ''
+										: 'text-gray-300 dark:text-gray-600 hover:text-gray-700 dark:hover:text-white'} transition capitalize"
+									on:click={() => {
+										selectedTag = '';
+										selectedConnectionType = 'direct';
+									}}
+								>
+									{$i18n.t('Direct')}
+								</button>
+							{/if}
+
 							{#each tags as tag}
 								<button
 									class="min-w-fit outline-none p-1.5 {selectedTag === tag
