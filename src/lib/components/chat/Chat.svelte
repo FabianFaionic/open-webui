@@ -1379,7 +1379,7 @@
 	//////////////////////////
 
 	const submitPrompt = async (userPrompt, { _raw = false } = {}) => {
-		console.log('submitPrompt', userPrompt, $chatId);
+		console.log('submitPrompt called:', userPrompt, 'selectedModels:', selectedModels, 'chatId:', $chatId);
 
 		const messages = createMessagesList(history, history.currentId);
 		const _selectedModels = selectedModels.map((modelId) =>
@@ -1488,6 +1488,8 @@
 		parentId: string,
 		{ modelId = null, modelIdx = null, newChat = false } = {}
 	) => {
+		console.log('sendPrompt called with modelId:', modelId, 'selectedModels:', selectedModels);
+		
 		if (autoScroll) {
 			scrollToBottom();
 		}
@@ -1552,8 +1554,9 @@
 
 		await Promise.all(
 			selectedModelIds.map(async (modelId, _modelIdx) => {
-				console.log('modelId', modelId);
+				console.log('Processing modelId:', modelId);
 				const model = $models.filter((m) => m.id === modelId).at(0);
+				console.log('Found model:', model);
 
 				if (model) {
 					const messages = createMessagesList(_history, parentId);
@@ -1579,6 +1582,7 @@
 
 					if (chatEventEmitter) clearInterval(chatEventEmitter);
 				} else {
+					console.log('Model not found!');
 					toast.error($i18n.t(`Model {{modelId}} not found`, { modelId }));
 				}
 			})
@@ -1965,7 +1969,8 @@
 					if (mergedResponse.content == '' && value == '\n') {
 						continue;
 					} else {
-						mergedResponse.content += value;
+						mergedResponse.
+            mergedResponse.content += value;
 						history.messages[messageId] = message;
 					}
 
