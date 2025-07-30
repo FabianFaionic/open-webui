@@ -669,8 +669,8 @@ async def unload_model(
     models = request.app.state.OLLAMA_MODELS
 
     # Canonicalize model name (if not supplied with version)
-    if ":" not in model_name:
-        model_name = f"{model_name}:latest"
+    #if ":" not in model_name:
+       # model_name = f"{model_name}:latest"
 
     if model_name not in models:
         raise HTTPException(
@@ -1033,8 +1033,8 @@ async def embed(
 
         model = form_data.model
 
-        if ":" not in model:
-            model = f"{model}:latest"
+        #if ":" not in model:
+           # model = f"{model}:latest"
 
         if model in models:
             url_idx = random.choice(models[model]["urls"])
@@ -1120,8 +1120,8 @@ async def embeddings(
 
         model = form_data.model
 
-        if ":" not in model:
-            model = f"{model}:latest"
+        #if ":" not in model:
+           # model = f"{model}:latest"
 
         if model in models:
             url_idx = random.choice(models[model]["urls"])
@@ -1213,8 +1213,8 @@ async def generate_completion(
 
         model = form_data.model
 
-        if ":" not in model:
-            model = f"{model}:latest"
+       # if ":" not in model:
+         #   model = f"{model}:latest"
 
         if model in models:
             url_idx = random.choice(models[model]["urls"])
@@ -1351,8 +1351,8 @@ async def generate_chat_completion(
                 detail="Model not found",
             )
 
-    if ":" not in payload["model"]:
-        payload["model"] = f"{payload['model']}:latest"
+   # if ":" not in payload["model"]:
+      #  payload["model"] = f"{payload['model']}:latest"
 
     url, url_idx = await get_ollama_url(request, payload["model"], url_idx)
     api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(
@@ -1426,8 +1426,8 @@ async def generate_openai_completion(
         del payload["metadata"]
 
     model_id = form_data.model
-    if ":" not in model_id:
-        model_id = f"{model_id}:latest"
+   # if ":" not in model_id:
+      #  model_id = f"{model_id}:latest"
 
     model_info = Models.get_model_by_id(model_id)
     if model_info:
@@ -1457,8 +1457,8 @@ async def generate_openai_completion(
                 detail="Model not found",
             )
 
-    if ":" not in payload["model"]:
-        payload["model"] = f"{payload['model']}:latest"
+   # if ":" not in payload["model"]:
+       # payload["model"] = f"{payload['model']}:latest"
 
     url, url_idx = await get_ollama_url(request, payload["model"], url_idx)
     api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(
@@ -1505,8 +1505,8 @@ async def generate_openai_chat_completion(
         del payload["metadata"]
 
     model_id = completion_form.model
-    if ":" not in model_id:
-        model_id = f"{model_id}:latest"
+   # if ":" not in model_id:
+      #  model_id = f"{model_id}:latest"
 
     model_info = Models.get_model_by_id(model_id)
     if model_info:
@@ -1540,8 +1540,8 @@ async def generate_openai_chat_completion(
                 detail="Model not found",
             )
 
-    if ":" not in payload["model"]:
-        payload["model"] = f"{payload['model']}:latest"
+   # if ":" not in payload["model"]:
+       # payload["model"] = f"{payload['model']}:latest"
 
     url, url_idx = await get_ollama_url(request, payload["model"], url_idx)
     api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(
