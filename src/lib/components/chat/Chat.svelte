@@ -295,7 +295,6 @@
 	};
 
 	const chatEventHandler = async (event, cb) => {
-
 		if (event.chat_id === $chatId) {
 			await tick();
 			let message = history.messages[event.message_id];
@@ -402,8 +401,6 @@
 					eventConfirmationMessage = data.message;
 					eventConfirmationInputPlaceholder = data.placeholder;
 					eventConfirmationInputValue = data?.value ?? '';
-				} else {
-				
 				}
 
 				history.messages[event.message_id] = message;
@@ -453,7 +450,6 @@
 	let pageSubscribe = null;
 	onMount(async () => {
 		loading = true;
-	
 		window.addEventListener('message', onMessageHandler);
 		$socket?.on('chat-events', chatEventHandler);
 
@@ -535,15 +531,6 @@
 	// File upload functions
 
 	const uploadGoogleDriveFile = async (fileData) => {
-	
-			id: fileData.id,
-			name: fileData.name,
-			url: fileData.url,
-			headers: {
-				Authorization: `Bearer ${token}`
-			}
-		});
-
 		// Validate input
 		if (!fileData?.id || !fileData?.name || !fileData?.url || !fileData?.headers?.Authorization) {
 			throw new Error('Invalid file data provided');
@@ -565,7 +552,6 @@
 
 		try {
 			files = [...files, fileItem];
-			
 
 			// Configure fetch options with proper headers
 			const fetchOptions = {
@@ -577,7 +563,6 @@
 			};
 
 			// Attempt to fetch the file
-			
 			const fileResponse = await fetch(fileData.url, fetchOptions);
 
 			if (!fileResponse.ok) {
@@ -587,30 +572,17 @@
 
 			// Get content type from response
 			const contentType = fileResponse.headers.get('content-type') || 'application/octet-stream';
-	
 
 			// Convert response to blob
-		
 			const fileBlob = await fileResponse.blob();
 
 			if (fileBlob.size === 0) {
 				throw new Error('Retrieved file is empty');
 			}
 
-			
-				size: fileBlob.size,
-				type: fileBlob.type || contentType
-			});
-
 			// Create File object with proper MIME type
 			const file = new File([fileBlob], fileData.name, {
 				type: fileBlob.type || contentType
-			});
-
-			
-				name: file.name,
-				size: file.size,
-				type: file.type
 			});
 
 			if (file.size === 0) {
@@ -629,14 +601,11 @@
 			}
 
 			// Upload file to server
-			
 			const uploadedFile = await uploadFile(localStorage.token, file, metadata);
 
 			if (!uploadedFile) {
 				throw new Error('Server returned null response for file upload');
 			}
-
-			console.log('File uploaded successfully:', uploadedFile);
 
 			// Update file item with upload results
 			fileItem.status = 'uploaded';
@@ -660,8 +629,6 @@
 	};
 
 	const uploadWeb = async (url) => {
-		console.log(url);
-
 		const fileItem = {
 			type: 'doc',
 			name: url,
@@ -973,6 +940,7 @@
 			});
 		}
 	};
+
 	const chatCompletedHandler = async (chatId, modelId, responseMessageId, messages) => {
 		const res = await chatCompleted(localStorage.token, {
 			model: modelId,
@@ -1377,8 +1345,6 @@
 	//////////////////////////
 
 	const submitPrompt = async (userPrompt, { _raw = false } = {}) => {
-		console.log('submitPrompt called:', userPrompt, 'selectedModels:', selectedModels, 'chatId:', $chatId);
-
 		const messages = createMessagesList(history, history.currentId);
 		const _selectedModels = selectedModels.map((modelId) =>
 			$models.map((m) => m.id).includes(modelId) ? modelId : ''
@@ -1486,8 +1452,6 @@
 		parentId: string,
 		{ modelId = null, modelIdx = null, newChat = false } = {}
 	) => {
-		console.log('sendPrompt called with modelId:', modelId, 'selectedModels:', selectedModels);
-		
 		if (autoScroll) {
 			scrollToBottom();
 		}
@@ -1552,9 +1516,7 @@
 
 		await Promise.all(
 			selectedModelIds.map(async (modelId, _modelIdx) => {
-				console.log('Processing modelId:', modelId);
 				const model = $models.filter((m) => m.id === modelId).at(0);
-				console.log('Found model:', model);
 
 				if (model) {
 					const messages = createMessagesList(_history, parentId);
@@ -1580,7 +1542,6 @@
 
 					if (chatEventEmitter) clearInterval(chatEventEmitter);
 				} else {
-					console.log('Model not found!');
 					toast.error($i18n.t(`Model {{modelId}} not found`, { modelId }));
 				}
 			})
@@ -1967,8 +1928,7 @@
 					if (mergedResponse.content == '' && value == '\n') {
 						continue;
 					} else {
-						mergedResponse.
-            mergedResponse.content += value;
+						mergedResponse.content += value;
 						history.messages[messageId] = message;
 					}
 
@@ -2022,7 +1982,6 @@
 			await chatId.set('local');
 		}
 		await tick();
-
 		return _chatId;
 	};
 
