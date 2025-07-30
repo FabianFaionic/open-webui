@@ -212,7 +212,6 @@
 			return;
 		}
 		sessionStorage.selectedModels = JSON.stringify(selectedModels);
-		console.log('saveSessionSelectedModels', selectedModels, sessionStorage.selectedModels);
 	};
 
 	let oldSelectedModelIds = [''];
@@ -296,7 +295,6 @@
 	};
 
 	const chatEventHandler = async (event, cb) => {
-		console.log(event);
 
 		if (event.chat_id === $chatId) {
 			await tick();
@@ -405,7 +403,7 @@
 					eventConfirmationInputPlaceholder = data.placeholder;
 					eventConfirmationInputValue = data?.value ?? '';
 				} else {
-					console.log('Unknown message type', data);
+				
 				}
 
 				history.messages[event.message_id] = message;
@@ -455,7 +453,7 @@
 	let pageSubscribe = null;
 	onMount(async () => {
 		loading = true;
-		console.log('mounted');
+	
 		window.addEventListener('message', onMessageHandler);
 		$socket?.on('chat-events', chatEventHandler);
 
@@ -537,7 +535,7 @@
 	// File upload functions
 
 	const uploadGoogleDriveFile = async (fileData) => {
-		console.log('Starting uploadGoogleDriveFile with:', {
+	
 			id: fileData.id,
 			name: fileData.name,
 			url: fileData.url,
@@ -567,7 +565,7 @@
 
 		try {
 			files = [...files, fileItem];
-			console.log('Processing web file with URL:', fileData.url);
+			
 
 			// Configure fetch options with proper headers
 			const fetchOptions = {
@@ -579,7 +577,7 @@
 			};
 
 			// Attempt to fetch the file
-			console.log('Fetching file content from Google Drive...');
+			
 			const fileResponse = await fetch(fileData.url, fetchOptions);
 
 			if (!fileResponse.ok) {
@@ -589,17 +587,17 @@
 
 			// Get content type from response
 			const contentType = fileResponse.headers.get('content-type') || 'application/octet-stream';
-			console.log('Response received with content-type:', contentType);
+	
 
 			// Convert response to blob
-			console.log('Converting response to blob...');
+		
 			const fileBlob = await fileResponse.blob();
 
 			if (fileBlob.size === 0) {
 				throw new Error('Retrieved file is empty');
 			}
 
-			console.log('Blob created:', {
+			
 				size: fileBlob.size,
 				type: fileBlob.type || contentType
 			});
@@ -609,7 +607,7 @@
 				type: fileBlob.type || contentType
 			});
 
-			console.log('File object created:', {
+			
 				name: file.name,
 				size: file.size,
 				type: file.type
@@ -631,7 +629,7 @@
 			}
 
 			// Upload file to server
-			console.log('Uploading file to server...');
+			
 			const uploadedFile = await uploadFile(localStorage.token, file, metadata);
 
 			if (!uploadedFile) {
